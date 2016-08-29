@@ -1,0 +1,19 @@
+{
+  "name": "nightlife-coordination",
+  "version": "1.0.0",
+  "description": "= Nightlife Coordination App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JacksonBates",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacksonBates/nightlife-coordination.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JacksonBates/nightlife-coordination/issues"
+  },
+  "homepage": "https://github.com/JacksonBates/nightlife-coordination#readme"
+}
