@@ -1,0 +1,56 @@
+
+label {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 2em;
+}
+
+input[type=text] {
+  border: solid 2px seagreen;
+  border-radius: 10px;
+  font-size: 1.5em;
+  height: 1em;
+  padding: 0.5em;
+  text-align: center;
+  width: 70%;
+}
+
+input[type=text] :focus {
+  border: solid 2px limegreen;
+  border-radius: 2px;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: seagreen;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  padding: 0.5em 2em;
+}
+
+// Flexbox below
+
+.flex-wrapper {
+  display: flex;
+  height: 94vh;
+  justify-content: center;
+  width: 99%;
+}
+
+.form-container {
+  align-self: center;
+  flex: 1;
+  text-align: center;
+  // width: 100%;
+}
+
+.yelp-output {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+}
+
+.yelp-item {
+  flex: 1;
+}
+
+
