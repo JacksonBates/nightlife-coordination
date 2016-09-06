@@ -33,7 +33,7 @@ mongo.connect( url, function( err, db ) {
   function(accessToken, refreshToken, profile, done) {
     var id = profile.id;
     var name = profile.displayName;
-    var users = db.collections( 'users' );
+    var users = db.collection( 'users' );
     if ( users.findOne( { id: id })) {
       console.log("user already exists");
       return done;
