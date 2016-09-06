@@ -34,16 +34,17 @@ mongo.connect( url, function( err, db ) {
     var id = profile.id;
     var name = profile.displayName;
     var users = db.collection( 'users' );
-    if ( users.findOne( { id: id })) {
-      console.log("user already exists");
-      return done;
-    } else {
-      console.log(id, name, "written to db");
-      users.insert({
-        id: id, 
-        name: name, 
-        venues: '[]' 
-      });
+    console.log(users.findOne({id: id}));
+    // if ( ) {
+    //   console.log("user already exists");
+    //   return done;
+    // } else {
+    //   console.log(id, name, "written to db");
+    //   users.insert({
+    //     id: id, 
+    //     name: name, 
+    //     venues: '[]' 
+    //   });
     }
     // var User = db.collection('users');
     // User.findOrCreate({}, function(err, user) {
