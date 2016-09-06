@@ -28,7 +28,7 @@ mongo.connect( url, function( err, db ) {
     passport.use(new FacebookStrategy({
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
-    callbackURL: "http://nytelyfe.herokuapp.com/auth/facebook/callback"
+    callbackURL: "https://nytelyfe.herokuapp.com/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     var User = db.collection('users');
