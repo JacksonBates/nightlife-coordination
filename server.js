@@ -45,7 +45,7 @@ mongo.connect( url, function( err, db ) {
     //     name: name, 
     //     venues: '[]' 
     //   });
-    }
+    // }
     // var User = db.collection('users');
     // User.findOrCreate({}, function(err, user) {
     //   if (err) { return done(err); }
