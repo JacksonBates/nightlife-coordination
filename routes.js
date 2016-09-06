@@ -27,8 +27,7 @@ router.post( '/search', function( req, res ) {
 });
 
 router.get ( '/whats-on', function( req, res ) {
-  console.log( req.body.location-input );
-  res.end();
+  res.render( 'pages/whats-on' );
 });
 
 module.exports = router;

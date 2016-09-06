@@ -1,11 +1,17 @@
 <% include ../partials/head.ejs %>
   <body>
+<h1 class='whats-on-header'>What's on in <%= json.businesses[0].location.city %>?</h1>
   <% for (var i = 0; i < json.businesses.length; i++) { %>
   <div class='yelp-output'>
     <div class='yelp-item'>
-      <img class="yelp-thumbnail" src="<%= json.businesses[i].image_url %>">
-      <h2 class="business-name"><%= json.businesses[i].name %><h2>
-      <p class="business-description"><%= json.businesses[i].snippet_text %></p>
+      <div class='yelp-box'>  
+        <img class="yelp-thumbnail" src="<%= json.businesses[i].image_url %>">
+        <h2 class="business-name"><%= json.businesses[i].name %><h2>
+        <form action="#" method="POST">
+          <input class='going-btn' type='submit' value="200 Going">
+        </form>
+        <p class="business-description"><%= json.businesses[i].snippet_text %></p>
+      </div>
     </div> 
   </div>
   <% } %>
