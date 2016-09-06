@@ -6,6 +6,8 @@ var cookieParser = require( 'cookie-parser' );
 var express = require( 'express' );
 var app = express();
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 var mongoUserPsw = process.env.MONGO_USR_PSW;
 var url = 'mongodb://' + mongoUserPsw +   "@ds019076.mlab.com:19076/nytelyfe";
@@ -22,6 +24,21 @@ mongo.connect( url, function( err, db ) {
       next();
     });
     
+    // initialise passportjs
+    passport.use(new FacebookStrategy({
+    clientID: process.env.FB_APP_ID,
+    clientSecret: process.env.FB_APP_SECRET,
+    callbackURL: "http://localhost:5000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    var User = db.collection('users');
+    User.findOrCreate({}, function(err, user) {
+      if (err) { return done(err); }
+      done(null, user);
+    });
+  }
+));
+
     // Standard express setup
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
