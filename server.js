@@ -31,11 +31,12 @@ mongo.connect( url, function( err, db ) {
     callbackURL: "https://nytelyfe.herokuapp.com/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    var User = db.collection('users');
-    User.findOrCreate({}, function(err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });
+    console.log(profile);
+    // var User = db.collection('users');
+    // User.findOrCreate({}, function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
   }
 ));
 
