@@ -31,7 +31,7 @@ mongo.connect( url, function( err, db ) {
     callbackURL: "https://nytelyfe.herokuapp.com/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
+    console.log(accessToken);
     // var User = db.collection('users');
     // User.findOrCreate({}, function(err, user) {
     //   if (err) { return done(err); }
