@@ -1,5 +1,6 @@
 <% include ../partials/head.ejs %>
   <body>
+  <% include ../partials/fb.ejs %>
 <h1 class='whats-on-header'>What's on in <%= json.businesses[0].location.city %>?</h1>
   <% for (var i = 0; i < json.businesses.length; i++) { %>
   <div class='yelp-output'>
