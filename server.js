@@ -48,6 +48,7 @@ mongo.connect( url, function( err, db ) {
       var users = db.collection( 'users' );
       users.findOne({'facebook.id': id}, function(err, user){
         if (err) {
+          console.log(err);
           return done(err);
         }
         if (user) {
@@ -59,6 +60,7 @@ mongo.connect( url, function( err, db ) {
             'facebook.name': name,
             'venues': []
           })
+          console.log(JSON.stringify(user));
           return done(null, user);
         }
       })
