@@ -48,6 +48,7 @@ mongo.connect( url, function( err, db ) {
             'facebook.name': name,
             'venues': []
           })
+          return done(null, user);
         }
       })
     })
