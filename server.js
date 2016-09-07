@@ -26,11 +26,13 @@ mongo.connect( url, function( err, db ) {
     
     // initialise passportjs
     passport.serializeUser(function(user, done){
+      console.log('serialize');
       done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done){
-      User.findById(id, function(err, user){
+      db.users.findOne({'facebook.id': id}, function(err, user){
+        console.log('deserialize');
         done(err, user);
       });
     });
@@ -48,7 +50,7 @@ mongo.connect( url, function( err, db ) {
       var users = db.collection( 'users' );
       users.findOne({'facebook.id': id}, function(err, user){
         if (err) {
-          console.log(err);
+          console.log('line 52', err);
           return done(err);
         }
         if (user) {
@@ -60,7 +62,7 @@ mongo.connect( url, function( err, db ) {
             'facebook.name': name,
             'venues': []
           })
-          console.log(JSON.stringify(user));
+          console.log('line 65', user);
           return done(null, user);
         }
       })
