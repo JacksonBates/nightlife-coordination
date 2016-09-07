@@ -1,6 +1,9 @@
 <% include ../partials/head.ejs %>
   <body>
   <% include ../partials/fb.ejs %>
+  <% if (user) { %>
+  <%= JSON.stringify(user) %>
+  <% } %>
     <div class='flex-wrapper'>
       <div class='form-container'>
         <form name='location-form' action='/search' method='POST'>
