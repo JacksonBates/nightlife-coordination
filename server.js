@@ -25,6 +25,17 @@ mongo.connect( url, function( err, db ) {
     });
     
     // initialise passportjs
+    passport.serializeUser(function(user, done){
+      done(null, user.id);
+    });
+
+    passport.deserializeUser(function(id, done){
+      User.findById(id, function(err, user){
+        done(err, user);
+      });
+    });
+
+    
     passport.use(new FacebookStrategy({
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
@@ -75,6 +86,8 @@ mongo.connect( url, function( err, db ) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
+    app.use(passport.initialize());
+    app.use(passport.session()); // persistent login sessions
     app.use( express.static( path.join( __dirname, '/public' )));
     
     app.use( '/', require( './routes' ));

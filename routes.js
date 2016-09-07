@@ -11,7 +11,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 
 // Homepage for the app, 
 router.get( '/', function( req, res ) {
-  res.render( 'pages/index' );
+  res.render( 'pages/index', { user: req.user } );
 });
 
 // Redirect the user to Facebook for authentication.  When complete,
