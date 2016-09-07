@@ -25,7 +25,7 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 // authentication has failed.
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login' }));
+                                      failureRedirect: '/' }));
 
 router.post( '/search', function( req, res ) {
   var loc = req.body.location;
