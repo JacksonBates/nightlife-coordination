@@ -31,10 +31,26 @@ mongo.connect( url, function( err, db ) {
     callbackURL: "https://nytelyfe.herokuapp.com/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    var id = profile.id;
-    var name = profile.displayName;
-    var users = db.collection( 'users' );
-    console.log(users.findOne({id: id}));
+    process.nextTick( function() {
+      var id = profile.id;
+      var name = profile.displayName;
+      var users = db.collection( 'users' );
+      users.findOne({'facebook.id': id}, function(err, user){
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, user);
+        } else {
+          users.insert({
+            'facebook.id': id,
+            'facebook.token': accessToken,
+            'facebook.name': name,
+            'venues': []
+          })
+        }
+      })
+    })
     // if ( ) {
     //   console.log("user already exists");
     //   return done;
