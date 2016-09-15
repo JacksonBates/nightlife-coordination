@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 var mongodb = require( 'mongodb' );
 var yelp = require( './controllers/apiCall.js');
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
+var passwordless = require('passwordless');
+
 
 // var userQueries = require( './controllers/userQueries' );
 
@@ -13,19 +13,6 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 router.get( '/', function( req, res ) {
   res.render( 'pages/index', { user: req.user } );
 });
-
-// Redirect the user to Facebook for authentication.  When complete,
-// Facebook will redirect the user back to the application at
-//     /auth/facebook/callback
-router.get('/auth/facebook', passport.authenticate('facebook'));
-
-// Facebook will redirect the user to this URL after approval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/' }));
 
 router.post( '/search', function( req, res ) {
   var loc = req.body.location;
@@ -44,6 +31,36 @@ router.post( '/search', function( req, res ) {
 
 router.get ( '/whats-on', function( req, res ) {
   res.render( 'pages/whats-on' );
+});
+
+// GET /login
+router.get( '/login', function( req, res ) {
+  res.render( 'pages/login', { user: req.user });
+});
+
+/* POST login screen. */
+router.post( '/sendtoken', 
+	passwordless.requestToken(
+		// Simply accept every user
+		function( user, delivery, callback ) {
+			callback( null, user );
+			// usually you would want something like:
+			// User.find({email: user}, callback(ret) {
+			// 		if(ret)
+			// 			callback(null, ret.id)
+			// 		else
+			// 			callback(null, null)
+			// })
+		}),
+	function( req, res ) {
+  		res.render('pages/sent', { user: req.user });
+});
+
+// test restricted pages
+/* GET restricted site. */
+router.get( '/restricted', passwordless.restricted( { failureRedirect: '/login' } ),
+  function( req, res ) {
+    res.render( 'pages/restricted' , { user: req.user });
 });
 
 module.exports = router;

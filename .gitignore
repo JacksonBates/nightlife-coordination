@@ -2,3 +2,5 @@ node_modules
 api notes.md
 .env
 stuff
+test.js
+sendEmail.js

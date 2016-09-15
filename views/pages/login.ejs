@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head.ejs %>
+  </head>
+  <body>
+    <div class='container'>
+      <p>Nytelyfe relies on passwordless authentication to improve security. You can read more about that here: <a href="https://medium.com/@ninjudd/passwords-are-obsolete-9ed56d483eb#.f8rwes61t">Passwords are obsolete</a>.</p>
+      <p>If you are concerned about providing a valid email address, maybe our <a href="/privacy">Privacy Policy</a> will reassure you? Don't worry, it's short and in plain English!</p>
+      <p>Alternatively, you may prefer to use a temporary, <a href="http://www.throwawaymail.com/">disposable email inbox</a>. That's cool, too. We're just happy to have you join in!</p>
+
+      <p>
+      <form action="/sendtoken" method="POST">
+      <br>
+        <div class='input-field'>
+          <label for="user" data-error="invalid" data-success="bingo">Email</label>
+          <input name="user" type="email" class='validate' required="" aria-required="true">
+        </div>
+        <br><input class='waves-effect waves-light btn' type="submit" value="Login / Register">
+      </form>
+      </p>
+      <ul>
+        <li>
+          <a href='/'>Back to homepage</a>
+        </li>
+      </ul>
+    </div>
+</body>
+</html>

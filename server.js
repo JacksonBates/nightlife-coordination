@@ -3,11 +3,14 @@ var mongodb = require( 'mongodb' );
 var mongo = mongodb.MongoClient;
 var path = require( 'path' );
 var cookieParser = require( 'cookie-parser' );
+var expressSession = require( 'express-session' );
 var express = require( 'express' );
 var app = express();
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
+var passwordless = require('passwordless');
+var MongoStore = require('passwordless-mongostore');
+var SparkPost = require('sparkpost');
+var client = new SparkPost();
 
 var mongoUserPsw = process.env.MONGO_USR_PSW;
 var url = 'mongodb://' + mongoUserPsw +   "@ds019076.mlab.com:19076/nytelyfe";
@@ -24,76 +27,51 @@ mongo.connect( url, function( err, db ) {
       next();
     });
     
-    // initialise passportjs
-    passport.serializeUser(function(user, done){
-      console.log('serialize');
-      done(null, user.id);
-    });
+    // TODO: MongoDB setup (given default can be used)
+    var pathToMongoDb = url;
+    var sendingDomain = process.env.SENDING_DOMAIN;
 
-    passport.deserializeUser(function(id, done){
-      db.users.findOne({'facebook.id': id}, function(err, user){
-        console.log('deserialize');
-        done(err, user);
-      });
-    });
+    // Path to be sent via email
+    var host = 'https://nytelyfe.herokuapp.com/';
 
-    
-    passport.use(new FacebookStrategy({
-    clientID: process.env.FB_APP_ID,
-    clientSecret: process.env.FB_APP_SECRET,
-    callbackURL: "https://nytelyfe.herokuapp.com/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick( function() {
-      var id = profile.id;
-      var name = profile.displayName;
-      var users = db.collection( 'users' );
-      users.findOne({'facebook.id': id}, function(err, user){
-        if (err) {
-          console.log('line 52', err);
-          return done(err);
-        }
-        if (user) {
-          return done(null, user);
-        } else {
-          users.insert({
-            'facebook.id': id,
-            'facebook.token': accessToken,
-            'facebook.name': name,
-            'venues': []
-          })
-          console.log('line 65', user);
-          return done(null, user);
-        }
-      })
-    })
-    // if ( ) {
-    //   console.log("user already exists");
-    //   return done;
-    // } else {
-    //   console.log(id, name, "written to db");
-    //   users.insert({
-    //     id: id, 
-    //     name: name, 
-    //     venues: '[]' 
-    //   });
-    // }
-    // var User = db.collection('users');
-    // User.findOrCreate({}, function(err, user) {
-    //   if (err) { return done(err); }
-    //   done(null, user);
-    // });
-  }
-));
+    // Setup of Passwordless
+    passwordless.init(new MongoStore(pathToMongoDb));
+    passwordless.addDelivery(
+        function(tokenToSend, uidToSend, recipient, callback) {
+            var tokenLink = host + '?token=' + tokenToSend + '&uid=' + encodeURIComponent(uidToSend);
+            // Send out token with SparkPost
+            client.transmissions.send({
+              transmissionBody: {
+                content: {
+                  from: sendingDomain,
+                  subject: 'Token for ' + host,
+                  html: "<html>Hello!\nYou can now access your account here: <a href='" + tokenLink + "'>" + tokenLink + "</a></html>"
+                },
+                recipients: [
+                  {address: recipient}
+                ]
+              }
+            }, function(err, res) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log('Email successfully sent via SparkPost to ' + recipient);
+                callback();
+            }
+        });
+        })
 
     // Standard express setup
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
-    app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
+    app.use(expressSession({secret: '42', saveUninitialized: false, resave: false, cookie: { maxAge: 60*60*24*365*10 }}));
     app.use( express.static( path.join( __dirname, '/public' )));
     
+    // Passwordless middleware
+    app.use(passwordless.sessionSupport());
+    app.use(passwordless.acceptToken({ successRedirect: '/' }));
+
     app.use( '/', require( './routes' ));
   }
   app.set( 'port', ( process.env.PORT || 5000 ));
