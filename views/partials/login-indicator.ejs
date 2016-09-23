@@ -1,0 +1,12 @@
+<nav>
+  <div class='logo'>
+    <a href='/'>Nytelyfe</a>
+  </div>
+  <div class='login-indicator'>
+    <% if (user) { %>
+      Logged in as <%= user %>! | <a href='/logout'>Logout <img class='svg' src='/assets/sign-in.svg'></a>
+    <% } else { %>
+      <a href='/login'>Login <img class='svg' src='/assets/sign-in.svg'></a>
+    <% } %>
+  </div>
+</nav>

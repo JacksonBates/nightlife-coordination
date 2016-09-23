@@ -4,3 +4,6 @@ api notes.md
 stuff
 test.js
 sendEmail.js
+.vscode/
+npm-debug.log
+

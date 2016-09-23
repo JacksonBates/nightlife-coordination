@@ -1,17 +1,15 @@
 <% include ../partials/head.ejs %>
   <body>
-  <% include ../partials/fb.ejs %>
-  <% if (user) { %>
-  <%= JSON.stringify(user) %>
-  <% } %>
+  <% include ../partials/login-indicator.ejs %>
     <div class='flex-wrapper'>
       <div class='form-container'>
-        <form name='location-form' action='/search' method='POST'>
+        <form name='location-form' action='/search' method='GET'>
           <label for='location'>Enter your location</label><br>
-          <input type='text' name='location'>
+          <input type='text' name='location'><br>
           <input class='whats-on-btn' type='submit' value="What's On?">
         </form>
       </div>
     </div>
+    <div>Icons made by <a href="http://www.flaticon.com/authors/chris-veigt" title="Chris Veigt">Chris Veigt</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   </body>
 </html>

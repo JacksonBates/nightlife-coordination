@@ -70,7 +70,7 @@ mongo.connect( url, function( err, db ) {
     
     // Passwordless middleware
     app.use(passwordless.sessionSupport());
-    app.use(passwordless.acceptToken({ successRedirect: '/' }));
+    app.use(passwordless.acceptToken({ enableOriginRedirect: true }));
 
     app.use( '/', require( './routes' ));
   }

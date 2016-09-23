@@ -1,6 +1,6 @@
 <% include ../partials/head.ejs %>
   <body>
-  <% include ../partials/fb.ejs %>
+  <% include ../partials/login-indicator.ejs %>
 <h1 class='whats-on-header'>What's on in <%= json.businesses[0].location.city %>?</h1>
   <% for (var i = 0; i < json.businesses.length; i++) { %>
   <div class='yelp-output'>
@@ -8,8 +8,14 @@
       <div class='yelp-box'>  
         <img class="yelp-thumbnail" src="<%= json.businesses[i].image_url %>">
         <h2 class="business-name"><%= json.businesses[i].name %><h2>
-        <form action="#" method="POST">
-          <input class='going-btn' type='submit' value="200 Going">
+        <form action="/process" method="POST">
+          <input type="hidden" name='userAttendingVenue' value="<% if (arrayOfBuzzingVenues.indexOf(json.businesses[i].id) > -1) { for (var items of docs) { if (items.yelpId === json.businesses[i].id) { if (items.punters.indexOf(user) > - 1) { %>true<%} else {%>false<%} } }} %>">
+          <input type="hidden" name='yelpId' value="<%= json.businesses[i].id %>">
+          <input type="hidden" name='userEmail' value="<%= user %>">
+          <input type="hidden" name='location' value='<%= json.businesses[0].location.city %>'>
+          <input class='going-btn' type='submit' value="<% if (arrayOfBuzzingVenues.indexOf(json.businesses[i].id) > -1) { %><% for (var items of docs) {
+            if (items.yelpId === json.businesses[i].id) {%><%= items.punters.length %> Going<% } 
+          } %><% } else { %>0 Going<% } %>">
         </form>
         <p class="business-description"><%= json.businesses[i].snippet_text %></p>
       </div>
