@@ -4,20 +4,24 @@ $('form').submit(function(event) {
     userEmail = $form.find( "input[name='userEmail']" ).val(),
     location = $form.find( "input[name='location']" ).val(),
     yelpId = $form.find( "input[name='yelpId']" ).val();
-  var subButton = $form.find( "input[type='submit']" );
-  var goingNumber = +subButton.val().match(/^\d*/)[0];
-  // subButton.val('RSVPing');
-  var userAttends = $form.find( "input[name='userAttendingVenue']" );
-  if (userAttends.val() === 'false') {
-    subButton.val((goingNumber + 1) + ' Going');
-    userAttends.val('true');
+  if (userEmail !== "") {
+    var subButton = $form.find( "input[type='submit']" );
+    var goingNumber = +subButton.val().match(/^\d*/)[0];
+    // subButton.val('RSVPing');
+    var userAttends = $form.find( "input[name='userAttendingVenue']" );
+    if (userAttends.val() === 'false') {
+      subButton.val((goingNumber + 1) + ' Going');
+      userAttends.val('true');
+    } else {
+      subButton.val((goingNumber - 1) + " Going");
+      userAttends.val('false');
+    }
+    console.log('attempting to POST', {userEmail: userEmail, location: location, yelpId: yelpId});
+    $.post('/process', { userEmail: userEmail, location: location, yelpId: yelpId })
+    .done(function( data ) {
+      console.log('done');  
+    });
   } else {
-    subButton.val((goingNumber - 1) + " Going");
-    userAttends.val('false');
+    window.location.href = '/login?origin=/search?location=melbourne';
   }
-  console.log('attempting to POST', {userEmail: userEmail, location: location, yelpId: yelpId});
-  $.post('/process', { userEmail: userEmail, location: location, yelpId: yelpId })
-  .done(function( data ) {
-    console.log('done');  
-  });
 })

@@ -80,7 +80,9 @@ router.get ( '/whats-on', function( req, res ) {
 
 // GET /login
 router.get( '/login', function( req, res ) {
-  res.render( 'pages/login', { user: req.user });
+  var uri = req.query;
+  console.log(uri);
+  res.render( 'pages/login', { user: req.user, origin: uri.origin });
 });
 
 /* POST login screen. */
@@ -90,7 +92,7 @@ router.post( '/sendtoken',
 		function( user, delivery, callback ) {
 			callback( null, user );
 		}, { originField: 'origin' }),
-	function( req, res ) {
+	  function( req, res ) {
   		res.render('pages/sent', { user: req.user });
 });
 
