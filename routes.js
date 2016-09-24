@@ -24,6 +24,12 @@ router.get( '/search', function( req, res ) {
       console.log( error );
     } else {
       var json = JSON.parse( body );
+      if (json.businesses === undefined) { 
+        console.log('Location not recognised, redirecting to /');
+        res.redirect('/')
+        return;
+      };
+    
       var len = Object.keys(json.businesses).length;
       var arrayOfVenues = [];
       for (var i = 0; i < len; i++) {
