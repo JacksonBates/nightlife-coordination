@@ -7,17 +7,18 @@
     <div class='yelp-item'>
       <div class='yelp-box'>  
         <img class="yelp-thumbnail" src="<% if (json.businesses[i].image_url) { %><%= json.businesses[i].image_url %><% } else { %>/assets/placeholder.svg<% } %>">
-        <h2 class="business-name"><%= json.businesses[i].name %><h2>
-        <form action="/process" method="POST">
+        <h2 class="business-name"><%= json.businesses[i].name %></h2>
+        <p class="business-description"><%= json.businesses[i].snippet_text %></p>
+        <br>
+        <form class="going-btn-form" action="/process" method="POST">
           <input type="hidden" name='userAttendingVenue' value="<% if (arrayOfBuzzingVenues.indexOf(json.businesses[i].id) > -1) { for (var items of docs) { if (items.yelpId === json.businesses[i].id) { if (items.punters.indexOf(user) > - 1) { %>true<%} else {%>false<%} } } } else {%>false<%}  %>">
           <input type="hidden" name='yelpId' value="<%= json.businesses[i].id %>">
           <input type="hidden" name='userEmail' value="<%= user %>">
           <input type="hidden" name='location' value='<%= json.businesses[0].location.city %>'>
           <input class='going-btn' type='submit' value="<% if (arrayOfBuzzingVenues.indexOf(json.businesses[i].id) > -1) { %><% for (var items of docs) {
-            if (items.yelpId === json.businesses[i].id) {%><%= items.punters.length %> Going<% } 
-          } %><% } else { %>0 Going<% } %>">
+            if (items.yelpId === json.businesses[i].id) {%><%= items.punters.length %> Going <% } 
+          } %><% } else { %>0 Going <% } %>">
         </form>
-        <p class="business-description"><%= json.businesses[i].snippet_text %></p>
       </div>
     </div> 
   </div>
