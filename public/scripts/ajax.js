@@ -22,6 +22,6 @@ $('form').submit(function(event) {
       console.log('done');  
     });
   } else {
-    window.location.href = '/login?origin=/search?location=melbourne';
+    window.location.href = '/login?origin=/search?location=' + location;
   }
 })
