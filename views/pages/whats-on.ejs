@@ -16,7 +16,7 @@
           <input type="hidden" name='userEmail' value="<%= user %>">
           <input type="hidden" name='location' value='<%= json.businesses[0].location.city %>'>
           <input class='going-btn' type='submit' value="<% if (arrayOfBuzzingVenues.indexOf(json.businesses[i].id) > -1) { %><% for (var items of docs) {
-            if (items.yelpId === json.businesses[i].id) {%><%= items.punters.length %> Going <% } 
+            if (items.yelpId === json.businesses[i].id) {%><%= items.punters.length %> Going&nbsp;<% } 
           } %><% } else { %>0 Going <% } %>">
         </form>
       </div>
