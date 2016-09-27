@@ -10,10 +10,10 @@ $('form').submit(function(event) {
     // subButton.val('RSVPing');
     var userAttends = $form.find( "input[name='userAttendingVenue']" );
     if (userAttends.val() === 'false') {
-      subButton.val((goingNumber + 1) + ' Going');
+      subButton.val((goingNumber + 1) + ' Going ');
       userAttends.val('true');
     } else {
-      subButton.val((goingNumber - 1) + " Going");
+      subButton.val((goingNumber - 1) + " Going ");
       userAttends.val('false');
     }
     console.log('attempting to POST', {userEmail: userEmail, location: location, yelpId: yelpId});
